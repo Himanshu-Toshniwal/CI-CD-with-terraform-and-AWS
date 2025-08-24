@@ -6,8 +6,9 @@ terraform {
       }
     }
     backend "s3" {
+        bucket = "ec2-weather-app-terraform-state-bucket"
         key    = "aws/ec2-deploy/terraform.tfstate"
-        
+        region = "ap-south-1"
     }
 }
 
@@ -39,7 +40,7 @@ resource "aws_iam_instance_profile" "ec2-profile" {
     role = "EC2-ECR-AUTH"
 }
 
-resource "security_group" "maingroup" {
+resource "aws_security_group" "maingroup" {
     ingress {
         from_port = 22
         to_port = 22

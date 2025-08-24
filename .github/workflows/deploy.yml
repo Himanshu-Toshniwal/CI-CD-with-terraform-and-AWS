@@ -3,7 +3,7 @@ name: CI/CD with Terraform
 on:
   push:
     branches:
-      - CI-CD-with-terraform-and-AWS
+      - main
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -17,7 +17,7 @@ jobs:
   deploy-infra:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v2
 
       - name: setup Terraform
@@ -27,8 +27,8 @@ jobs:
 
       - name: Terraform init
         id: init
-        run: terraform init -backend-config="bucket=$TF_STATE_BUCKET_NAME" -backend-config="region=ap-south-1"
-        worling-directory: ./terraform
+        run: terraform init
+        working-directory: ./terraform
 
       - name: Terraform plan
         id: plan
@@ -42,5 +42,5 @@ jobs:
 
       - name: Terraform apply
         id: apply
-        run: terraform apply -auto-approve
+        run: terraform apply PLAN
         working-directory: ./terraform
